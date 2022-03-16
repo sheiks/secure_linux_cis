@@ -9,3 +9,4 @@ secure_linux_cis::tcp_wrappers_package: tcp_wrappers
 secure_linux_cis::samba_service: smb
 secure_linux_cis::auditd_package: audit
 secure_linux_cis::cron_service: crond
+secure_linux_cis::time_servers: ['blr1.postoast.com']

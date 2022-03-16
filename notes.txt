@@ -1,0 +1,22 @@
+
+Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Class[Secure_linux_cis]:
+  expects a value for parameter 'time_servers'
+  parameter 'hardening_schedule' entry 'repeat' expects an Integer value, got Float on node agent.saleem.local
+
+
+[saleem]: provide 'time_servers' value in through hiera
+          'repeat' 
+
+puppet module install puppetlabs-stdlib --version 6.6.0
+puppet module install puppet-kmod
+puppet module install herculesteam-augeasproviders_sysctl
+puppet module install puppet-firewalld
+puppet module install puppetlabs-firewall
+puppet module install puppet-cron
+puppet module install herculesteam-augeasproviders_pam
+
+
+
+Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, No PBKDF2 password hash provided or set. Please add proper value to hiera or disable this rule until present. (file: /etc/puppetlabs/code/environments/production/modules/secure_linux_cis/manifests/rules/ensure_bootloader_password_is_set.pp, line: 43, column: 5) on node agent.saleem.local
+[saleem]: disable ensure_bootloader_password_is_set rule in os/CentOS/version/8.yaml
+

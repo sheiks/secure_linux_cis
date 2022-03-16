@@ -10,4 +10,4 @@ secure_linux_cis::host_deny_rules:
 
 secure_linux_cis::hardening_schedule:
   period: hourly
-  repeat: 2
+  repeat: 1
