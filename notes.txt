@@ -20,3 +20,35 @@ puppet module install herculesteam-augeasproviders_pam
 Error: Could not retrieve catalog from remote server: Error 500 on SERVER: Server Error: Evaluation Error: Error while evaluating a Resource Statement, Evaluation Error: Error while evaluating a Function Call, No PBKDF2 password hash provided or set. Please add proper value to hiera or disable this rule until present. (file: /etc/puppetlabs/code/environments/production/modules/secure_linux_cis/manifests/rules/ensure_bootloader_password_is_set.pp, line: 43, column: 5) on node agent.saleem.local
 [saleem]: disable ensure_bootloader_password_is_set rule in os/CentOS/version/8.yaml
 
+----------- Most Imp---------------------
+Warning: If we dont comment "ensure_default_deny_firewall_policy" rule that will break all access to the agent as firewalls blocking all rules.
+-------------------------------------------
+
+Warning: Facter: Operation not permitted @ io_fread - /sys/module/kdb/parameters/enable_nmi
+
+
+Error: Execution of '/usr/bin/dnf -d 0 -e 1 -y install aide' returned 1: Error: Failed to download metadata for repo 'appstream': Cannot prepare internal mirrorlist: No URLs in mirrorlist
+Error: /Stage[main]/Secure_linux_cis::Rules::Ensure_aide_is_installed/Package[aide]/ensure: change from 'purged' to 'present' failed: Execution of '/usr/bin/dnf -d 0 -e 1 -y install aide' returned 1: Error: Failed to download metadata for repo 'appstream': Cannot prepare internal mirrorlist: No URLs in mirrorlist
+
+[saleem]: we have a problem with CentOS repositories where puppet unable to install aide module. So we have fixed the repo issue with below commands
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+
+
+Error: More than one line in file '/etc/ssh/sshd_config' matches pattern '^#?Banner'
+Error: /Stage[main]/Secure_linux_cis::Rules::Ensure_ssh_warning_banner_is_configured/File_line[ssh warning banner]/ensure: change from 'absent' to 'present' failed: More than one line in file '/etc/ssh/sshd_config' matches pattern '^#?Banner'
+
+[Saleem]: we had two commented lines for Banner, but module explicity is looking for only one commented Banner.
+#Banner none
+
+
+Notice: /Stage[main]/Secure_linux_cis::Rules::Ensure_loopback_traffic_is_configured/Firewall[001 accept all input to lo interface]/ensure: created
+Warning: Firewall[001 accept all input to lo interface](provider=iptables): Unable to persist firewall rules: Execution of '/usr/libexec/iptables/iptables.init save' returned 1: Error: Could not execute posix command: No such file or directory - /usr/libexec/iptables/iptables.init
+Notice: /Stage[main]/Secure_linux_cis::Rules::Ensure_loopback_traffic_is_configured/Firewall[002 accept all output to lo interface]/ensure: created
+Warning: Firewall[002 accept all output to lo interface](provider=iptables): Unable to persist firewall rules: Execution of '/usr/libexec/iptables/iptables.init save' returned 1: Error: Could not execute posix command: No such file or directory - /usr/libexec/iptables/iptables.init
+Notice: /Stage[main]/Secure_linux_cis::Rules::Ensure_loopback_traffic_is_configured/Firewall[003 drop all to lo 127.0.0.0/8]/ensure: created
+Warning: Firewall[003 drop all to lo 127.0.0.0/8](provider=iptables): Unable to persist firewall rules: Execution of '/usr/libexec/iptables/iptables.init save' returned 1: Error: Could not execute posix command: No such file or directory - /usr/libexec/iptables/iptables.init
+Notice: /Stage[main]/Secure_linux_cis::Rules::Ensure_no_duplicate_gids_exist/File[/usr/share/cis_scripts/dup_gid.sh]/ensure: defined content as '{md5}60bea323c2b1faae39c285e35ccf271c'
+
+
